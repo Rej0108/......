@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Our Chat 💚</title>
+
+<style>
+body {
+    margin: 0;
+    background: #0b141a;
+    font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+.header {
+    background: #202c33;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.dp {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.status {
+    font-size: 12px;
+    color: lightgreen;
+}
+
+/* CHAT */
+.chat-container {
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.message {
+    max-width: 75%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+.sent {
+    align-self: flex-end;
+    background: #005c4b;
+    color: white;
+}
+
+.received {
+    align-self: flex-start;
+    background: #202c33;
+    color: white;
+}
+
+.tick {
+    font-size: 10px;
+    margin-left: 5px;
+    color: lightblue;
+}
+
+/* typing */
+.typing {
+    color: gray;
+    font-size: 14px;
+    margin: 5px;
+    display: none;
+}
+
+/* voice note */
+.voice {
+    display: flex;
+    align-items: center;
+}
+
+.bar {
+    width: 3px;
+    height: 10px;
+    background: white;
+    margin: 0 1px;
+    animation: wave 1s infinite;
+}
+
+@keyframes wave {
+    50% { height: 20px; }
+}
+
+/* final */
+#final {
+    text-align: center;
+    color: #25d366;
+    font-size: 22px;
+    margin: 10px;
+    opacity: 0;
+    transition: 1s;
+    text-shadow: 0 0 15px #25d366;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="dp" style="background-image:url('ammu.jpg')"></div> <!-- 👈 PUT IMAGE -->
+    <div>
+        <div class="name">AMMU 💖</div> <!-- CHANGE NAME -->
+        <div class="status">online</div>
+    </div>
+</div>
+
+<div class="chat-container" id="chat"></div>
+
+<div class="typing" id="typing">typing...</div>
+
+<div id="final">I LOVE YOU FOREVER ❤️</div>
+
+<script>
+const chat = document.getElementById("chat");
+const typing = document.getElementById("typing");
+
+const messages = [
+    {text: "oiiii lollipop...", type: "sent"},
+    {text: "April 16... en life la romba special day ❤️", type: "sent"},
+    {text: "Annaiku dhaan bayam irundhalum un kitta sonen...", type: "sent"},
+    {text: "I love you nu 💖", type: "sent"},
+    {text: "Adhu dhaan naa edutha oru best decision 🥺", type: "sent"},
+    {text: "appo mattum illa Innaiku varaikum... unna romba miss pannuren 😔", type: "sent"},
+    {text: "Nee en kooda illa naalum...", type: "sent"},
+    {text: "ennaku eppovum un nanapudha ammu ❤️", type: "sent"},
+    {text: "Naa epovum unna happy ahh vachiikuran...", type: "sent"},
+    {text: "Lifelong unna ipo love pannuratha vida innum adikama love pannuran Love you ammuuu i miss you lottt 💞", type: "sent"}
+];
+
+let i = 0;
+
+function showTyping(){
+    typing.style.display = "block";
+}
+
+function hideTyping(){
+    typing.style.display = "none";
+}
+
+function addMessage(text, type){
+    let msg = document.createElement("div");
+    msg.className = "message " + type;
+    msg.innerHTML = text + "<span class='tick'> ✔✔</span>";
+
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function showVoiceNote(){
+    let msg = document.createElement("div");
+    msg.className = "message sent";
+
+    msg.innerHTML = `
+        <div class="voice">
+            🎤
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    `;
+
+    chat.appendChild(msg);
+}
+
+function showMessage(){
+    if(i < messages.length){
+        showTyping();
+
+        setTimeout(()=>{
+            hideTyping();
+            addMessage(messages[i].text, messages[i].type);
+
+            if(i === 5){
+                setTimeout(showVoiceNote, 800);
+            }
+
+            i++;
+            setTimeout(showMessage, 1400);
+        }, 1000);
+
+    } else {
+        setTimeout(()=>{
+            document.getElementById("final").style.opacity = 1;
+        }, 1200);
+    }
+}
+
+setTimeout(showMessage, 1000);
+</script>
+
+</body>
+</html>
